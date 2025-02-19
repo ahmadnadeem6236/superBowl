@@ -1,0 +1,57 @@
+services:
+  # server:
+  #   container_name: server
+  #   build:
+  #     context: ./apps/server/
+  #     dockerfile: Dockerfile.server
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     FLASK_DEBUG: 1
+  #     FLASK_APP: ./app.py
+  #   volumes:
+  #     - ./apps/server:/app
+  #   networks:
+  #     - app-network
+
+  db:
+    image: postgres:16
+    container_name: superbowl-db
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=superbowl
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # client:
+  #   container_name: client
+  #   build:
+  #     context: ./apps/client/
+  #     dockerfile: Dockerfile.client
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./apps/client:/app
+  #     - /app/node_modules
+  #   environment:
+  #     - VITE_APP_BACKEND_ADDRESS=http://localhost/api
+  #   networks:
+  #     - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
