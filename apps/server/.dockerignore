@@ -1,0 +1,40 @@
+# Ignore Python bytecode files
+__pycache__
+*.pyc
+*.pyo
+
+# Ignore virtual environment directories
+.venv
+venv
+ENV
+env
+
+# Ignore local environment files
+.env
+
+# Ignore migration files (if you don't need them in the image)
+migrations
+
+# Ignore node modules (if you're using Node.js for frontend)
+node_modules
+
+# Ignore macOS and Linux specific files
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore IDE and editor files
+.vscode
+.idea
+*.swp
+
+# Ignore Docker-specific files
+docker-compose.yml
+Dockerfile
+# Ignore test files (if you don't need them in the image)
+tests
+
+# Ignore any other temporary or build files
+build
+dist

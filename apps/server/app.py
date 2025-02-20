@@ -8,29 +8,31 @@ app = create_app(os.getenv("CONFIG_MODE"))
 
 # ----------------------------------------------- #
 
+
 # Hello World!
 @app.route("/")
 def hello():
     return "Hello World🙋"
 
+
 # Applications Routes
 from .api import urls
 
 # ----------------------------------------------- #
-from .api.utils import fetch_and_save_articles
-
-def start_scheduler():
-    scheduler = BackgroundScheduler()
-    
-    def job_wrapper():
-        with app.app_context():
-            fetch_and_save_articles()
-    
-    scheduler.add_job(job_wrapper, 'interval', seconds=10)
-    scheduler.start()
-
-with app.app_context():
-    start_scheduler()
+# from .api.utils import fetch_and_save_articles
+#
+# def start_scheduler():
+#     scheduler = BackgroundScheduler()
+#
+#     def job_wrapper():
+#         with app.app_context():
+#             fetch_and_save_articles()
+#
+#     scheduler.add_job(job_wrapper, 'interval', seconds=10)
+#     scheduler.start()
+#
+# with app.app_context():
+#     start_scheduler()
 
 if __name__ == "__main__":
     # To Run the Server in Terminal => flask run -h localhost -p 5000

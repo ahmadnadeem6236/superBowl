@@ -1,19 +1,4 @@
 services:
-  # server:
-  #   container_name: server
-  #   build:
-  #     context: ./apps/server/
-  #     dockerfile: Dockerfile.server
-  #   ports:
-  #     - "5000:5000"
-  #   environment:
-  #     FLASK_DEBUG: 1
-  #     FLASK_APP: ./app.py
-  #   volumes:
-  #     - ./apps/server:/app
-  #   networks:
-  #     - app-network
-
   db:
     image: postgres:16
     container_name: superbowl-db
@@ -34,27 +19,38 @@ services:
       timeout: 5s
       retries: 5
 
-  redis:
-    image: "redis:alpine"
+  server:
+    container_name: server
+    build:
+      context: ./apps/server/
+      dockerfile: Dockerfile
     ports:
-      - "6379:6379"
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=1
+      - FLASK_APP=./app.py
+      - GNEWS=f5444f988fdaf431a788e80c3ab36465
+      - DEVELOPMENT_DATABASE_URL=postgresql+psycopg2://postgres:password@superbowl-db:5432/superbowl
+      - CONFIG_MODE=development
     networks:
       - app-network
+    depends_on:
+      - db
 
-  # client:
-  #   container_name: client
-  #   build:
-  #     context: ./apps/client/
-  #     dockerfile: Dockerfile.client
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./apps/client:/app
-  #     - /app/node_modules
-  #   environment:
-  #     - VITE_APP_BACKEND_ADDRESS=http://localhost/api
-  #   networks:
-  #     - app-network
+  client:
+    container_name: client
+    build:
+      context: ./apps/client/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/client:/app
+      - /app/node_modules
+    environment:
+      - VITE_APP_BACKEND_ADDRESS=http://localhost/api
+    networks:
+      - app-network
 
 networks:
   app-network:
