@@ -48,9 +48,11 @@ services:
       - ./apps/client:/app
       - /app/node_modules
     environment:
-      - VITE_APP_BACKEND_ADDRESS=http://localhost/api
+      - NODE_ENV=development
     networks:
       - app-network
+    depends_on:
+      - server
 
 networks:
   app-network:
