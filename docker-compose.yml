@@ -37,22 +37,22 @@ services:
     depends_on:
       - db
 
-  client:
-    container_name: client
-    build:
-      context: ./apps/client/
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./apps/client:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    networks:
-      - app-network
-    depends_on:
-      - server
+  # client:
+  #   container_name: client
+  #   build:
+  #     context: ./apps/client/
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./apps/client:/app
+  #     - /app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - server
 
 networks:
   app-network:
